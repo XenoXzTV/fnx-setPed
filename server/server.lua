@@ -1,5 +1,23 @@
 local ESX = exports['es_extended']:getSharedObject()
 
+ESX.RegisterCommand('resetped', 'admin',function(source, aro) 
+    iddddddddddddddd = aro[1]
+    local xped = ESX.GetPlayerFromId(iddddddddddddddd)
+	local xPlayer = ESX.GetPlayerFromId(source)
+		if iddddddddddddddd ~= nil then
+			if GetPlayerName(tonumber(aro[1])) ~= nil then
+				MySQL.Async.fetchAll("SELECT identifier FROM users WHERE identifier = @steam", {
+				["@steam"] = xped.identifier
+				}, function (cazzi_miei) 
+					if #cazzi_miei ~= 0 then
+						MySQL.Async.execute("DELETE FROM users WHERE ped=@ped", { ["@identifier"] = cazzi_miei[1].identifier })
+						TriggerClientEvent('fnx-reset', iddddddddddddddd)
+					end
+				end)
+			end
+	end
+end)
+
 ESX.RegisterCommand(Config.CommandName, Config.Authorized, function(xPlayer, args, showError)
     local ped = GetPedSet(args.ped)
     if ped ~= nil then
